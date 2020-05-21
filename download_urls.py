@@ -7,6 +7,8 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.firefox.options import Options
+
 
 if(len(sys.argv)==1):
     sys.exit("No queries provided.")
@@ -14,6 +16,8 @@ if(len(sys.argv)==1):
 
 download_path = pathlib.Path.cwd()/'urls'
 
+options = Options()
+options.headless = True
 profile = webdriver.FirefoxProfile()
 profile.set_preference("browser.download.folderList", 2)
 profile.set_preference("browser.helperApps.neverAsk.saveToDisk","text/csv")
@@ -21,7 +25,7 @@ profile.set_preference("browser.download.dir", str(download_path))
 
 queries = sys.argv[1:]
 
-wd = webdriver.Firefox(profile)
+wd = webdriver.Firefox(profile,options = options)
 wd.get("http://images.google.com")
 
 for query in queries:
